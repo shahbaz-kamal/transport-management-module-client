@@ -9,12 +9,16 @@ import {
 
 import { Separator } from "../ui/separator";
 import { SidebarTrigger } from "../ui/sidebar";
+import { useGetMeQuery } from "@/redux/features/user/user.api";
 
 interface IProps {
   heading: string;
   subHeading: string;
 }
 export default function SidebarHeader({ heading, subHeading }: IProps) {
+const {data:userData}=useGetMeQuery(undefined)
+
+console.log(userData)
   return (
     <header className="flex h-16 shrink-0 items-center gap-2 border-b">
       <div className="flex items-center w-full justify-between gap-2 px-3">
