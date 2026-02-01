@@ -1,23 +1,20 @@
 import {
-    Breadcrumb,
-    BreadcrumbItem,
-    BreadcrumbLink,
-    BreadcrumbList,
-    BreadcrumbPage,
-    BreadcrumbSeparator,
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 
 import { Separator } from "../ui/separator";
 import { SidebarTrigger } from "../ui/sidebar";
 
-
-
 interface IProps {
   heading: string;
   subHeading: string;
-  subSubHeading: string;
 }
-export default function SidebarHeader({ heading, subHeading, subSubHeading }: IProps) {
+export default function SidebarHeader({ heading, subHeading }: IProps) {
   return (
     <header className="flex h-16 shrink-0 items-center gap-2 border-b">
       <div className="flex items-center w-full justify-between gap-2 px-3">
@@ -31,16 +28,8 @@ export default function SidebarHeader({ heading, subHeading, subSubHeading }: IP
               </BreadcrumbItem>
               <BreadcrumbSeparator className="hidden md:block" />
               <BreadcrumbItem>
-                <BreadcrumbPage className={!subSubHeading ? "text-primary font-medium" : "hidden md:block"}>{subHeading}</BreadcrumbPage>
+                <BreadcrumbPage className="text-primary font-medium">{subHeading}</BreadcrumbPage>
               </BreadcrumbItem>
-              {subSubHeading && (
-                <>
-                  <BreadcrumbSeparator className="hidden md:block" />
-                  <BreadcrumbItem>
-                    <BreadcrumbPage className="text-primary font-medium">{subSubHeading}</BreadcrumbPage>
-                  </BreadcrumbItem>
-                </>
-              )}
             </BreadcrumbList>
           </Breadcrumb>
         </div>
@@ -56,7 +45,7 @@ export default function SidebarHeader({ heading, subHeading, subSubHeading }: IP
               Logout
             </Button>
           )} */}
-       
+
           {/* {userData?.data && userData?.data?.profilePicture && (
             <img className="h-8 w-8 rounded-full" src={userData?.data?.profilePicture} alt="" />
           )} */}
