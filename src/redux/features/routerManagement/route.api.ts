@@ -1,5 +1,5 @@
 import { baseApi } from "@/redux/baseApi";
-import type { IResponse, IRoute } from "@/types";
+import type { IResponse, IRoute, IRouteFeeUpdate } from "@/types";
 
 export const routeApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -10,7 +10,15 @@ export const routeApi = baseApi.injectEndpoints({
       }),
       providesTags: ["ROUTES"],
     }),
+    updateRouteFees: builder.mutation<IResponse<IRoute>, IRouteFeeUpdate>({
+      query: (routeInfo) => ({
+        url: "/route/update-route",
+        method: "PATCH",
+        data: routeInfo,
+      }),
+      invalidatesTags:["ROUTES"]
+    }),
   }),
 });
 
-export const { useGetAllRoutesQuery } = routeApi;
+export const { useGetAllRoutesQuery, useUpdateRouteFeesMutation } = routeApi;
