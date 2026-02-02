@@ -3,6 +3,8 @@ import DashboardLayout from "@/components/layouts/DashboardLayout";
 import { adminSidebarItems } from "@/constant/adminSidebarItems";
 import Login from "@/pages/Auth/Login";
 import Register from "@/pages/Auth/Register";
+import { roleEnum } from "@/schemas/registerFormSchema";
+import { checkAuth } from "@/utils/checkAuth";
 import { generateRoutes } from "@/utils/generateRoutes";
 import { createBrowserRouter, Navigate } from "react-router";
 
@@ -21,7 +23,7 @@ export const router = createBrowserRouter([
   },
   {
     path: "/admin",
-    Component: DashboardLayout,
+    Component: checkAuth(DashboardLayout, [roleEnum[0], roleEnum[1]]),
     children: [{ index: true, element: <Navigate to="/admin/fees-master"></Navigate> }, ...generateRoutes(adminSidebarItems)],
   },
 ]);
