@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useMemo, useState } from "react";
 import SidebarHeader from "@/components/layouts/SidebarHeader";
 import { useGetAllVehiclesQuery } from "@/redux/features/vehicles/vehicles.api";
