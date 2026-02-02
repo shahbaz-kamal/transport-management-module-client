@@ -30,8 +30,8 @@ export interface IRouteWithPickUp {
   updatedAt: string;
   monthlyFee: number;
   pickupPoints: IPickupWithRoute[];
+  vehicles: { id: string; vehicleNo: string; driverName: string; contactNo: string; createdAt: string; updatedAt: string }[];
 }
-
 
 export interface IAddRouteFormValues {
   name: string;
@@ -39,5 +39,4 @@ export interface IAddRouteFormValues {
   endPoint: string;
   monthlyFee: number;
   pickupPoints: { name: string; address: string; stopOrder: number }[];
-};
-
+}

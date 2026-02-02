@@ -23,7 +23,7 @@ export const routeApi = baseApi.injectEndpoints({
         method: "PATCH",
         data: routeInfo,
       }),
-      invalidatesTags: ["ROUTES"],
+      invalidatesTags: ["ROUTES", "ROUTES-WITH_PICKUP"],
     }),
     createRoute: builder.mutation<IResponse<IRouteWithPickUp>, IAddRouteFormValues>({
       query: (routeInfo) => ({
@@ -31,7 +31,7 @@ export const routeApi = baseApi.injectEndpoints({
         method: "POST",
         data: routeInfo,
       }),
-      invalidatesTags: ["ROUTES-WITH_PICKUP"],
+      invalidatesTags: ["ROUTES-WITH_PICKUP", "ROUTES"],
     }),
   }),
 });

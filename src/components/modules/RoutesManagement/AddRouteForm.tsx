@@ -87,7 +87,7 @@ const AddRouteForm = () => {
   };
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-6 mb-10">
       <Card>
         <CardHeader className="text-center">
           <CardTitle className="text-xl">Add New Route</CardTitle>
