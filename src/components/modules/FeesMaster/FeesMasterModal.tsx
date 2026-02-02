@@ -21,7 +21,7 @@ export default function FeesMasterModal({ open, route, onOpenChange, onClose, on
   const [updateRouteFees] = useUpdateRouteFeesMutation();
   const [fee, setFee] = useState<string>("");
 
-  // Set default fee when modal opens / route changes
+  // Seting default fee when modal opens / route changes
   useEffect(() => {
     if (route) setFee(String(route.monthlyFee));
   }, [route]);
@@ -36,8 +36,8 @@ export default function FeesMasterModal({ open, route, onOpenChange, onClose, on
 
     const numericFee = Number(fee);
     if (Number.isNaN(numericFee) || numericFee < 0) {
-      // basic client-side safety
-      alert("Please enter a valid monthly fee");
+   
+      toast.error("Please enter a valid monthly fee");
       return;
     }
     const newData = { routeId: route.id, monthlyFee: numericFee };

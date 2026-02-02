@@ -32,7 +32,7 @@ const AddRouteForm = () => {
   const pickupPoints = watch("pickupPoints");
 
   const onSubmit = async (values: IAddRouteFormValues) => {
-    // ❌ minimum pickup points check
+    // minimum pickup points check
     if (values.pickupPoints.length < 2) {
       setError("pickupPoints", {
         type: "manual",
@@ -41,7 +41,7 @@ const AddRouteForm = () => {
       return;
     }
 
-    // ❌ stopOrder uniqueness check
+    //  stopOrder uniqueness check
     const orders = values.pickupPoints.map((p) => Number(p.stopOrder));
     if (new Set(orders).size !== orders.length) {
       setError("pickupPoints", {

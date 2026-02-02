@@ -29,7 +29,7 @@ const LoginForm = ({ className, ...props }: React.ComponentProps<"div">) => {
   });
 
   const onSubmit = async (data: LoginValues) => {
-    // Call your login API here
+    
     console.log("Login payload:", data);
     const toastId = toast.loading("Logging In ...");
     const userInfo = {

@@ -37,7 +37,7 @@ const RegisterForm = ({ className, ...props }: React.ComponentProps<"div">) => {
 
   const onSubmit = async (values: RegisterFormValues) => {
     // Example payload
-    // If you have an API, call it here.
+
     console.log("Register payload:", values);
   };
 
