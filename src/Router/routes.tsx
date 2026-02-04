@@ -1,6 +1,7 @@
 import App from "@/App";
 import DashboardLayout from "@/components/layouts/DashboardLayout";
 import { adminSidebarItems } from "@/constant/adminSidebarItems";
+import { studentSidebarItems } from "@/constant/studentSidebarItems";
 import Login from "@/pages/Auth/Login";
 import Register from "@/pages/Auth/Register";
 import { roleEnum } from "@/schemas/registerFormSchema";
@@ -25,5 +26,10 @@ export const router = createBrowserRouter([
     path: "/admin",
     Component: checkAuth(DashboardLayout, [roleEnum[0], roleEnum[1]]),
     children: [{ index: true, element: <Navigate to="/admin/fees-master"></Navigate> }, ...generateRoutes(adminSidebarItems)],
+  },
+  {
+    path: "/student",
+    Component: checkAuth(DashboardLayout, [roleEnum[2]]),
+    children: [{ index: true, element: <Navigate to="/student/my-info"></Navigate> }, ...generateRoutes(studentSidebarItems)],
   },
 ]);

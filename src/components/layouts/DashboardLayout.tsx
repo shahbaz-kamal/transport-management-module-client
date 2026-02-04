@@ -7,7 +7,7 @@ import Loading from "./Loading";
 
 export default function DashboardLayout() {
   const { data: userData, isLoading } = useGetMeQuery(undefined);
-  if (isLoading) return <Loading></Loading>;
+  if (isLoading || !userData) return <Loading></Loading>;
   return (
     <SidebarProvider>
       <AppSidebar />

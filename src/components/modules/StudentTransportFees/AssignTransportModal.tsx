@@ -102,28 +102,7 @@ export default function AssignTransportModal({ open, onOpenChange, student, rout
         pickupPointId: values.pickupPointId,
       },
     };
-    // console.log("Assign transport payload:", {
-    //   studentId: student?.id,
-    //   month,
-    //   year,
-    //   route: {
-    //     id: values.routeId,
-    //     name: selectedRoute?.name,
-    //     monthlyFee: selectedRoute?.monthlyFee,
-    //   },
-    //   pickupPoint: {
-    //     id: values.pickupPointId,
-    //     name: selectedPickup?.name,
-    //     stopOrder: selectedPickup?.stopOrder,
-    //     routePickupPointId: selectedPickup?.routePickupPointId,
-    //   },
-    //   vehicle: {
-    //     id: values.vehicleId,
-    //     vehicleNo: selectedVehicle?.vehicleNo,
-    //     driverName: selectedVehicle?.driverName,
-    //     contactNo: selectedVehicle?.contactNo,
-    //   },
-    // });
+
     console.log(payload);
     const toastId = toast.loading("Assigning student");
     try {

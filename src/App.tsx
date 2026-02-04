@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
-import { useGetMeQuery } from "./redux/features/user/user.api";
-import Loading from "./components/layouts/Loading";
 import { Navigate } from "react-router";
+import Loading from "./components/layouts/Loading";
+import { useGetMeQuery } from "./redux/features/user/user.api";
 import { roleEnum } from "./types";
 
 function App() {

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { baseApi } from "@/redux/baseApi";
-import type { IAllStudent, IResponse, IUser } from "@/types";
+import type { IAllStudent, IResponse, IStudentSelf, IUser } from "@/types";
 
 export const userApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -18,7 +18,14 @@ export const userApi = baseApi.injectEndpoints({
       }),
       providesTags: ["STUDENT"],
     }),
+    getMyData: builder.query<IResponse<IStudentSelf>, undefined>({
+      query: () => ({
+        url: "/user/student/myData",
+        method: "GET",
+      }),
+      providesTags: ["STUDENT"],
+    }),
   }),
 });
 
-export const { useGetMeQuery, useGetAllStudentsQuery } = userApi;
+export const { useGetMeQuery, useGetAllStudentsQuery, useGetMyDataQuery } = userApi;

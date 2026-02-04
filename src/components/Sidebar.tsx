@@ -16,9 +16,21 @@ import {
 import { adminSidebarItems } from "@/constant/adminSidebarItems";
 import { Link, useLocation } from "react-router";
 import Logo from "@/assets/icons/Logo";
+import { roleEnum, type ISidebarItems } from "@/types";
+import { useGetMeQuery } from "@/redux/features/user/user.api";
+import Loading from "./layouts/Loading";
+import { studentSidebarItems } from "@/constant/studentSidebarItems";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const location = useLocation();
+
+  const { data: myData, isLoading } = useGetMeQuery(undefined);
+
+  // if (isLoading || !myData) return <Loading></Loading>;
+  let sidebarItems = [];
+
+  if (myData.data.role === roleEnum[0] || myData.data.role === roleEnum[1]) sidebarItems = adminSidebarItems;
+  else sidebarItems = studentSidebarItems;
 
   return (
     <Sidebar {...props}>
@@ -31,8 +43,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                   <Logo className="h-7 w-7" />
                 </div>
                 <div className="flex flex-col gap-0.5 leading-none">
-                  <span className="font-medium">Documentation</span>
-                  <span className="">v1.0.0</span>
+                  <span className="font-medium">Transport Management</span>
+                  <span className="">Module</span>
                 </div>
               </Link>
             </SidebarMenuButton>
@@ -42,7 +54,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       <SidebarContent>
         <SidebarGroup>
           <SidebarMenu>
-            {adminSidebarItems.map((item) => (
+            {sidebarItems.map((item) => (
               <SidebarMenuItem key={item.title}>
                 <SidebarMenuButton asChild>
                   <a href={item.url} className="font-medium">

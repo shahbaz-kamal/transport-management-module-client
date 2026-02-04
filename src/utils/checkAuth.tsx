@@ -9,8 +9,10 @@ export const checkAuth = (Component: ComponentType, requiredRoles?: Trole[]) => 
     const { data: userData, isLoading } = useGetMeQuery(undefined);
 
     if (isLoading) return <Loading />;
-
+    console.log("ME:", userData?.data);
+    console.log("Required:", requiredRoles);
     if (!isLoading && !userData?.data?.email) return <Navigate to="/login"></Navigate>;
+  
 
     if (requiredRoles && !isLoading && (!userData?.data?.role || !requiredRoles.includes(userData.data.role))) {
       return <Navigate to="/unauthorized" />;

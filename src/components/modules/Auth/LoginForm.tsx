@@ -13,6 +13,7 @@ import { Link, useNavigate } from "react-router";
 import { Button } from "@/components/ui/button";
 import { useLoginMutation } from "@/redux/features/auths/auth.api";
 import { toast } from "sonner";
+import { roleEnum } from "@/types";
 
 type LoginValues = z.infer<typeof loginSchema>;
 
@@ -29,7 +30,6 @@ const LoginForm = ({ className, ...props }: React.ComponentProps<"div">) => {
   });
 
   const onSubmit = async (data: LoginValues) => {
-    
     console.log("Login payload:", data);
     const toastId = toast.loading("Logging In ...");
     const userInfo = {
@@ -39,15 +39,18 @@ const LoginForm = ({ className, ...props }: React.ComponentProps<"div">) => {
 
     try {
       const result = await login(userInfo).unwrap();
+      console.log(result);
+      console.log(result.data.role);
       if (result.success) {
         toast.success("Login successful!", { id: toastId });
-        navigate("/");
+        if (result.data.role === roleEnum[0] || result.data.role === roleEnum[1]) navigate("/admin");
+        else navigate("/student");
       }
-      console.log(result)
+      
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       console.log(error);
-      toast.error(error.data.message);
+      toast.error(error.data.message, { id: toastId });
     }
   };
 

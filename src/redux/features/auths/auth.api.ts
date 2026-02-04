@@ -11,6 +11,7 @@ export const authApi = baseApi.injectEndpoints({
         method: "POST",
         data: userInfo,
       }),
+      invalidatesTags: ["USER"],
     }),
     register: builder.mutation<IResponse<any>, IRegister>({
       query: (userInfo) => ({
@@ -19,7 +20,14 @@ export const authApi = baseApi.injectEndpoints({
         data: userInfo,
       }),
     }),
+    logout: builder.mutation({
+      query: () => ({
+        url: "/auth/logout",
+        method: "POST",
+      }),
+      invalidatesTags: ["USER","ROUTES","PICKUP-PONTS","ROUTES-WITH_PICKUP","VEHICLES","STUDENT"],
+    }),
   }),
 });
 
-export const { useLoginMutation, useRegisterMutation } = authApi;
+export const { useLoginMutation, useRegisterMutation, useLogoutMutation } = authApi;
