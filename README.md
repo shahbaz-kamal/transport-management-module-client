@@ -59,7 +59,7 @@ VITE_BASE_URL=http://localhost:5000/api/v1
 ```bash
 npm run dev
 ```
-
+Then the frontned should run on localhost 3000. 
 <!-- ## 🔗 Live  link
 
 ###
