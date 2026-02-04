@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useMemo, useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -5,6 +6,11 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 
 import type { IUser, IRouteWithPickUp } from "@/types";
 import AssignTransportModal from "./AssignTransportModal";
+
+import VehicleDetailsModal from "../Vehicles/vehicleDetailsModal";
+import TransportRouteDetailsModal from "./TransportRouteDetailsModal";
+// import TransportRouteDetailsModal from "./RouteDetailsModal";
+// import VehicleDetailsModal from "./VehicleDetailsModal";
 
 type Props = {
   students: IUser[];
@@ -27,11 +33,50 @@ export default function StudentTransportFeesTable({ students, routes }: Props) {
   const [open, setOpen] = useState(false);
   const [selectedStudent, setSelectedStudent] = useState<IUser | null>(null);
 
+  const [routeOpen, setRouteOpen] = useState(false);
+  const [selectedRoute, setSelectedRoute] = useState<IRouteWithPickUp | null>(null);
+
+  const [vehicleOpen, setVehicleOpen] = useState(false);
+  const [selectedVehicle, setSelectedVehicle] = useState<any | null>(null);
+
   const handleAssignClick = (student: IUser) => {
     setSelectedStudent(student);
     setOpen(true);
-    console.log(student)
-    console.log("modal clicked")
+  };
+
+  const handleRouteClick = (routeId?: string) => {
+    if (!routeId) return;
+    const r = routes.find((x) => x.id === routeId) ?? null;
+    setSelectedRoute(r);
+    setRouteOpen(true);
+  };
+
+  const handleVehicleClick = (vehicleId?: string) => {
+    if (!vehicleId) return;
+
+    let found: any | null = null;
+
+    for (const r of routes) {
+      const v = r.vehicles?.find((x) => x.id === vehicleId);
+      if (v) {
+        found = {
+          ...v,
+          route: {
+            id: r.id,
+            name: r.name,
+            startPoint: r.startPoint,
+            endPoint: r.endPoint,
+            monthlyFee: r.monthlyFee,
+          },
+        };
+        break;
+      }
+    }
+
+    if (!found) return;
+
+    setSelectedVehicle(found);
+    setVehicleOpen(true);
   };
 
   return (
@@ -60,11 +105,16 @@ export default function StudentTransportFeesTable({ students, routes }: Props) {
               ) : (
                 rows.map((s) => {
                   const latest = s.transportAsStudent?.[0];
+
+                  const routeId = latest?.route?.id;
                   const routeName = latest?.route?.name;
+
+                  const vehicleId = latest?.vehicle?.id;
                   const vehicleNo = latest?.vehicle?.vehicleNo;
+
                   const pickupName = latest?.pickupPoint?.name;
 
-                  const isAssigned = Boolean(s.isRouteAssigned) || Boolean(routeName || vehicleNo || pickupName);
+                  const isAssigned = Boolean(s.isRouteAssigned) || Boolean(routeId || vehicleId || pickupName);
 
                   return (
                     <TableRow key={s.id}>
@@ -72,20 +122,28 @@ export default function StudentTransportFeesTable({ students, routes }: Props) {
                       <TableCell className="text-muted-foreground">{s.email}</TableCell>
 
                       <TableCell>
-                        {isAssigned ? (
-                          <span className="rounded-md bg-muted px-2 py-1 text-sm font-medium">
+                        {routeId ? (
+                          <button
+                            type="button"
+                            onClick={() => handleRouteClick(routeId)}
+                            className="rounded-md bg-muted px-2 py-1 text-sm font-medium hover:underline cursor-pointer"
+                          >
                             {routeName ?? "Assigned"}
-                          </span>
+                          </button>
                         ) : (
                           <span className="text-sm text-muted-foreground">Not assigned</span>
                         )}
                       </TableCell>
 
                       <TableCell>
-                        {isAssigned ? (
-                          <span className="rounded-md bg-muted px-2 py-1 text-sm font-medium">
+                        {vehicleId ? (
+                          <button
+                            type="button"
+                            onClick={() => handleVehicleClick(vehicleId)}
+                            className="rounded-md bg-muted px-2 py-1 text-sm font-medium hover:underline cursor-pointer"
+                          >
                             {vehicleNo ?? "Assigned"}
-                          </span>
+                          </button>
                         ) : (
                           <span className="text-sm text-muted-foreground">Not assigned</span>
                         )}
@@ -93,9 +151,7 @@ export default function StudentTransportFeesTable({ students, routes }: Props) {
 
                       <TableCell>
                         {isAssigned ? (
-                          <span className="rounded-md bg-muted px-2 py-1 text-sm font-medium">
-                            {pickupName ?? "Assigned"}
-                          </span>
+                          <span className="rounded-md bg-muted px-2 py-1 text-sm font-medium">{pickupName ?? "Assigned"}</span>
                         ) : (
                           <span className="text-sm text-muted-foreground">Not assigned</span>
                         )}
@@ -122,6 +178,10 @@ export default function StudentTransportFeesTable({ students, routes }: Props) {
       </Card>
 
       <AssignTransportModal open={open} onOpenChange={setOpen} student={selectedStudent} routes={routes} />
+
+      <TransportRouteDetailsModal open={routeOpen} onOpenChange={setRouteOpen} route={selectedRoute} />
+
+      <VehicleDetailsModal open={vehicleOpen} onOpenChange={setVehicleOpen} vehicle={selectedVehicle} />
     </>
   );
 }

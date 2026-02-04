@@ -4,7 +4,7 @@ export type Trole = (typeof roleEnum)[number];
 export interface IUser {
   id: string;
   email: string;
-  password: string;
+  password?: string;
   name: string;
   role: Trole;
   address: string | null;

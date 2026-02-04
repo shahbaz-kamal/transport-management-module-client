@@ -79,11 +79,9 @@ export default function AssignTransportModal({ open, onOpenChange, student, rout
     setValue("vehicleId", "");
   }, [pickupPointId, setValue]);
 
- 
-
   const onSubmit = async (values: FormValues) => {
-
     const amount = selectedRoute?.monthlyFee;
+    if (!amount) return;
     const now = new Date();
     const month = String(now.getMonth() + 1).padStart(2, "0");
     const year = String(now.getFullYear());
