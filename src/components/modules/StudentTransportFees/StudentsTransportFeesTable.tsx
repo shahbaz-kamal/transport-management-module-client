@@ -2,46 +2,54 @@
 import { useMemo, useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 
-import type { IUser, IRouteWithPickUp } from "@/types";
+import type { IAllStudent, IRouteWithPickUp, IUser } from "@/types";
+
 import AssignTransportModal from "./AssignTransportModal";
-
-import VehicleDetailsModal from "../Vehicles/vehicleDetailsModal";
 import TransportRouteDetailsModal from "./TransportRouteDetailsModal";
-// import TransportRouteDetailsModal from "./RouteDetailsModal";
-// import VehicleDetailsModal from "./VehicleDetailsModal";
+import VehicleDetailsModal from "../Vehicles/vehicleDetailsModal";
 
 type Props = {
-  students: IUser[];
+  students: IAllStudent[];
   routes: IRouteWithPickUp[];
 };
 
-type TransportRow = {
-  route?: { id: string; name: string } | null;
-  vehicle?: { id: string; vehicleNo: string } | null;
-  pickupPoint?: { id: string; name: string } | null;
-};
-
-type StudentWithTransport = IUser & {
-  transportAsStudent?: TransportRow[];
-};
-
 export default function StudentTransportFeesTable({ students, routes }: Props) {
-  const rows = useMemo(() => (students ?? []) as StudentWithTransport[], [students]);
+  const rows = useMemo(() => students ?? [], [students]);
 
-  const [open, setOpen] = useState(false);
+  const [assignOpen, setAssignOpen] = useState(false);
   const [selectedStudent, setSelectedStudent] = useState<IUser | null>(null);
 
   const [routeOpen, setRouteOpen] = useState(false);
-  const [selectedRoute, setSelectedRoute] = useState<IRouteWithPickUp | null>(null);
+  const [selectedRoute, setSelectedRoute] = useState<IRouteWithPickUp | null>(
+    null,
+  );
 
   const [vehicleOpen, setVehicleOpen] = useState(false);
   const [selectedVehicle, setSelectedVehicle] = useState<any | null>(null);
 
-  const handleAssignClick = (student: IUser) => {
-    setSelectedStudent(student);
-    setOpen(true);
+  const handleAssignClick = (student: IAllStudent) => {
+    const asUser: IUser = {
+      id: student.id,
+      email: student.email,
+      name: student.name,
+      role: student.role as any,
+      address: student.address,
+      isRouteAssigned: student.isRouteAssigned,
+      createdAt: new Date(student.createdAt),
+      updatedAt: new Date(student.updatedAt),
+    };
+
+    setSelectedStudent(asUser);
+    setAssignOpen(true);
   };
 
   const handleRouteClick = (routeId?: string) => {
@@ -91,6 +99,8 @@ export default function StudentTransportFeesTable({ students, routes }: Props) {
                 <TableHead>Assigned Route</TableHead>
                 <TableHead>Assigned Vehicle</TableHead>
                 <TableHead>Pickup Point</TableHead>
+                <TableHead>Month</TableHead>
+                <TableHead>Year</TableHead>
                 <TableHead>Action</TableHead>
               </TableRow>
             </TableHeader>
@@ -98,7 +108,10 @@ export default function StudentTransportFeesTable({ students, routes }: Props) {
             <TableBody>
               {rows.length === 0 ? (
                 <TableRow>
-                  <TableCell colSpan={6} className="py-10 text-center text-sm text-muted-foreground">
+                  <TableCell
+                    colSpan={8}
+                    className="py-10 text-center text-sm text-muted-foreground"
+                  >
                     No students found.
                   </TableCell>
                 </TableRow>
@@ -114,12 +127,22 @@ export default function StudentTransportFeesTable({ students, routes }: Props) {
 
                   const pickupName = latest?.pickupPoint?.name;
 
-                  const isAssigned = Boolean(s.isRouteAssigned) || Boolean(routeId || vehicleId || pickupName);
+                  const latestFee = s.student?.[0];
+                  const month = latestFee?.month;
+                  const year = latestFee?.year;
+
+                  const isAssigned =
+                    Boolean(s.isRouteAssigned) ||
+                    Boolean(routeId || vehicleId || pickupName);
 
                   return (
                     <TableRow key={s.id}>
-                      <TableCell className="font-medium">{s.name || "N/A"}</TableCell>
-                      <TableCell className="text-muted-foreground">{s.email}</TableCell>
+                      <TableCell className="font-medium">
+                        {s.name || "N/A"}
+                      </TableCell>
+                      <TableCell className="text-muted-foreground">
+                        {s.email}
+                      </TableCell>
 
                       <TableCell>
                         {routeId ? (
@@ -131,7 +154,9 @@ export default function StudentTransportFeesTable({ students, routes }: Props) {
                             {routeName ?? "Assigned"}
                           </button>
                         ) : (
-                          <span className="text-sm text-muted-foreground">Not assigned</span>
+                          <span className="text-sm text-muted-foreground">
+                            Not assigned
+                          </span>
                         )}
                       </TableCell>
 
@@ -145,15 +170,45 @@ export default function StudentTransportFeesTable({ students, routes }: Props) {
                             {vehicleNo ?? "Assigned"}
                           </button>
                         ) : (
-                          <span className="text-sm text-muted-foreground">Not assigned</span>
+                          <span className="text-sm text-muted-foreground">
+                            Not assigned
+                          </span>
                         )}
                       </TableCell>
 
                       <TableCell>
-                        {isAssigned ? (
-                          <span className="rounded-md bg-muted px-2 py-1 text-sm font-medium">{pickupName ?? "Assigned"}</span>
+                        {pickupName ? (
+                          <span className="rounded-md bg-muted px-2 py-1 text-sm font-medium">
+                            {pickupName}
+                          </span>
                         ) : (
-                          <span className="text-sm text-muted-foreground">Not assigned</span>
+                          <span className="text-sm text-muted-foreground">
+                            Not assigned
+                          </span>
+                        )}
+                      </TableCell>
+
+                      <TableCell>
+                        {month ? (
+                          <span className="rounded-md bg-muted px-2 py-1 text-sm font-medium">
+                            {month}
+                          </span>
+                        ) : (
+                          <span className="text-sm text-muted-foreground">
+                            —
+                          </span>
+                        )}
+                      </TableCell>
+
+                      <TableCell>
+                        {year ? (
+                          <span className="rounded-md bg-muted px-2 py-1 text-sm font-medium">
+                            {year}
+                          </span>
+                        ) : (
+                          <span className="text-sm text-muted-foreground">
+                            —
+                          </span>
                         )}
                       </TableCell>
 
@@ -163,7 +218,12 @@ export default function StudentTransportFeesTable({ students, routes }: Props) {
                             Assigned
                           </Button>
                         ) : (
-                          <Button className="cursor-pointer" size="sm" variant="outline" onClick={() => handleAssignClick(s)}>
+                          <Button
+                            className="cursor-pointer"
+                            size="sm"
+                            variant="outline"
+                            onClick={() => handleAssignClick(s)}
+                          >
                             Assign Route
                           </Button>
                         )}
@@ -177,11 +237,24 @@ export default function StudentTransportFeesTable({ students, routes }: Props) {
         </div>
       </Card>
 
-      <AssignTransportModal open={open} onOpenChange={setOpen} student={selectedStudent} routes={routes} />
+      <AssignTransportModal
+        open={assignOpen}
+        onOpenChange={setAssignOpen}
+        student={selectedStudent}
+        routes={routes}
+      />
 
-      <TransportRouteDetailsModal open={routeOpen} onOpenChange={setRouteOpen} route={selectedRoute} />
+      <TransportRouteDetailsModal
+        open={routeOpen}
+        onOpenChange={setRouteOpen}
+        route={selectedRoute}
+      />
 
-      <VehicleDetailsModal open={vehicleOpen} onOpenChange={setVehicleOpen} vehicle={selectedVehicle} />
+      <VehicleDetailsModal
+        open={vehicleOpen}
+        onOpenChange={setVehicleOpen}
+        vehicle={selectedVehicle}
+      />
     </>
   );
 }

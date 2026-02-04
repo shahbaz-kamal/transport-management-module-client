@@ -18,6 +18,11 @@ export interface ITransportAsStudent {
   vehicle: { id: string; vehicleNo: string };
   pickupPoint: { id: string; name: string };
 }
+
+export interface IMothAndYear {
+  month:string,
+  year:string
+}
 export interface IAllStudent {
   id: string;
   email: string;
@@ -28,4 +33,5 @@ export interface IAllStudent {
   createdAt: string;
   updatedAt: string;
   transportAsStudent: ITransportAsStudent[];
+  student?:IMothAndYear[]
 }

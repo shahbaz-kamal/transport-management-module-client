@@ -83,7 +83,8 @@ export default function AssignTransportModal({ open, onOpenChange, student, rout
     const amount = selectedRoute?.monthlyFee;
     if (!amount) return;
     const now = new Date();
-    const month = String(now.getMonth() + 1).padStart(2, "0");
+    const month = now.toLocaleString("en-US", { month: "long" });
+
     const year = String(now.getFullYear());
     if (!student?.id) return;
     const payload = {
