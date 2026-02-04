@@ -1,18 +1,10 @@
 import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
+import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 
 type Props = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  vehicle: any | null; 
+  vehicle: any | null;
 };
 
 export default function VehicleDetailsModal({ open, onOpenChange, vehicle }: Props) {

@@ -28,3 +28,5 @@ export interface ISidebarItems {
     icon: JSX.Element;
   }[];
 }
+
+export interface IRouteWithPickupVehicles { id: string; vehicleNo: string; driverName: string; contactNo: string; createdAt: string; updatedAt: string }

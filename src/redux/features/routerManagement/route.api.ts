@@ -1,5 +1,13 @@
 import { baseApi } from "@/redux/baseApi";
-import type { IAddRouteFormValues, IResponse, IRoute, IRouteFeeUpdate, IRouteWithPickUp } from "@/types";
+import type {
+  IAddRouteFormValues,
+  IResponse,
+  IRoute,
+  IRouteFeeUpdate,
+  IRouteWithPickUp,
+  IStudentAssignResult,
+  IStudentFeeAndTransportAssign,
+} from "@/types";
 
 export const routeApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -33,7 +41,21 @@ export const routeApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["ROUTES-WITH_PICKUP", "ROUTES"],
     }),
+    assignRoutes: builder.mutation<IResponse<IStudentAssignResult>, IStudentFeeAndTransportAssign>({
+      query: (info) => ({
+        url: "/route/assign-route",
+        method: "POST",
+        data: info,
+      }),
+      invalidatesTags: ["ROUTES-WITH_PICKUP", "ROUTES", "USER", "STUDENT"],
+    }),
   }),
 });
 
-export const { useGetAllRoutesQuery, useUpdateRouteFeesMutation, useGetAllRoutesWithPickupQuery, useCreateRouteMutation } = routeApi;
+export const {
+  useGetAllRoutesQuery,
+  useUpdateRouteFeesMutation,
+  useGetAllRoutesWithPickupQuery,
+  useCreateRouteMutation,
+  useAssignRoutesMutation,
+} = routeApi;
