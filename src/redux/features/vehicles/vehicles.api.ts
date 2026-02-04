@@ -18,6 +18,7 @@ export const vehicleApi = baseApi.injectEndpoints({
         method: "POST",
         data: vehicleInfo,
       }),
+      invalidatesTags: ["VEHICLES"],
     }),
   }),
 });

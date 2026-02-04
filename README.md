@@ -1,5 +1,5 @@
 <div align="center">
-  <img height="400" src="https://github.com/shahbaz-kamal/vaultPay-server/blob/development/src/app/assets/git_banner.png"  />
+  <img height="400" src="https://github.com/shahbaz-kamal/transport-management-module-client/blob/main/src/assets/images/git_banner.png"  />
 </div>
 
 ###
@@ -26,7 +26,7 @@ Admins can efficiently assign routes, vehicles, and pickup points, while student
   cd transport-management-module-server
 ```
 
-3. Follow the instruction mentioned in the vackend repository `https://github.com/shahbaz-kamal/transport-management-module-server.git` and run the projects
+3. Follow the instruction mentioned in the backend repository `https://github.com/shahbaz-kamal/transport-management-module-server.git` and run the backend first.
 
 4. clone the frontend by running
 
@@ -70,6 +70,17 @@ npm run dev
 ###
 
 [Click Here](https://vault-pay-server.vercel.app) -->
+
+## 👨‍💼 User guides(For testing)
+
+- Following these are **important** as at first database will be empty and it is needed to create some data for testing.
+- At first needs to log in as admin (email: super.transport@gmail.com, and password: 123456Aa). This are automatically created when the server first runs.
+- Or you can create your own account selecting role as admin from login route.
+- Then after login a route needs to be created from ```/admin/routes``` .
+- After that A vehicle needs to be assigned in that specific route from ```/admin/assign-vehicles``` route.
+- Then a student accounts needs to be created for assigning this route to that student.
+- After that this student information is showen in ```admin/student-transport-fees``` route and can assign a specific route.
+
 
 ## 👨‍💼 Login Info(For testing)
 
